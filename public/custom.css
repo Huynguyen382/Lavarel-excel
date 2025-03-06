@@ -1,0 +1,160 @@
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Toàn bộ trang */
+body {
+    background-color: #f4f6f9;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Container chính */
+.container {
+    max-width: 1600px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.upload-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: nowrap;
+}
+/* Khu vực bảng */
+.table-container {
+    max-width: 1600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    overflow-x: auto;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+/* Bảng */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background: #007bff;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+tr:nth-child(even) {
+    background: #f2f2f2;
+}
+
+tr:hover {
+    background: #ddd;
+}
+
+/* Nút bấm */
+.btn {
+    padding: 8px 12px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.form-control {
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: white;
+    cursor: pointer;
+    margin-right: 3px;
+
+}
+.search-bar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 100%;
+}
+.total-count{
+    font-weight: bold;
+    text-align: left;
+    flex: 1;
+}
+.input-group{
+    margin-left: auto;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn:hover {
+    background: #0056b3;
+}
+
+.cancel {
+    background: #dc3545;
+}
+
+.cancel:hover {
+    background: #b02a37;
+}
+.mt-5{
+    padding-top: 10px;
+}
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.pagination {
+    list-style: none;
+    display: flex;
+    gap: 5px;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination .page-item {
+    display: inline-block;
+}
+
+.pagination .page-link {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    text-decoration: none;
+    color: #007bff;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.pagination .page-link:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.pagination .disabled .page-link {
+    pointer-events: none;
+    color: #aaa;
+    border-color: #ddd;
+}
