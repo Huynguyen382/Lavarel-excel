@@ -73,7 +73,9 @@ class OneshipController extends Controller
                         $columns['release_date'] = $col;
                     } elseif (preg_match('/^(Khối lượng|Khoi_Luong|KL_Tinh_Cuoc)$/i', $colValue)) {
                         $columns['chargeable_volumn'] = $col;
-                    } elseif (preg_match('/^(Cuoc_E1|Cước E1|Cước Chính|Cuoc_Chinh)$/i', $colValue)) {
+                    } elseif (preg_match('/^(Cuoc_E1|Cước E1)$/i', $colValue)) {
+                        $columns['main_charge'] = $col;
+                    } elseif (preg_match('/^(Cước Chính|Cuoc_Chinh)$/i', $colValue)) {
                         $columns['main_charge'] = $col;
                     } elseif (preg_match('/^(Nguoi_Nhan|Người Nhận)$/i', $colValue)) {
                         $columns['receiver'] = $col;
@@ -123,12 +125,18 @@ class OneshipController extends Controller
         }
 
         DB::commit();
-        return back()->with(['message' => "Đã nhập {$totalImported} dòng thành công"]);
+       return back()->with('success', "Đã nhập {$totalImported} dòng thành công!");
     }
 
     private function excelDateToPHP($excelDate)
     {
-        return is_numeric($excelDate) ? \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($excelDate)->format('Y-m-d') : null;
+        if (is_numeric($excelDate)) {
+            if ($excelDate > 50000) {
+                return $excelDate; 
+            }
+            return date('Y-m-d', strtotime("1899-12-30 +$excelDate days"));
+        }
+        return $excelDate;
     }
 
     public function exportExcel(ExportExcelRequest $request)
@@ -144,33 +152,33 @@ class OneshipController extends Controller
             $highestRow = $worksheet->getHighestRow();
             $highestColumnIndex = Coordinate::columnIndexFromString($worksheet->getHighestColumn());
 
-            $colMaE1Index = null;
+            $Cole1_codeIndex = null;
             for ($col = 1; $col <= $highestColumnIndex; $col++) {
                 $colLetter = Coordinate::stringFromColumnIndex($col);
                 $colValue = trim($worksheet->getCell($colLetter . '1')->getValue());
 
                 if (preg_match('/^(Mã E1|Ma_E1)$/i', $colValue)) {
-                    $colMaE1Index = $col;
+                    $Cole1_codeIndex = $col;
                     break;
                 }
             }
 
-            if ($colMaE1Index === null) {
+            if ($Cole1_codeIndex === null) {
                 return back()->withErrors(['message' => 'Không tìm thấy cột chứa Mã E1 trong file Excel.']);
             }
 
-            $colMaE1Letter = Coordinate::stringFromColumnIndex($colMaE1Index);
-            $colCuocChinhIndex = $highestColumnIndex + 1;
-            $colCuocChinhLetter = Coordinate::stringFromColumnIndex($colCuocChinhIndex);
-            $worksheet->setCellValue($colCuocChinhLetter . '1', 'Cuoc_Chinh');
+            $Cole1_codeLetter = Coordinate::stringFromColumnIndex($Cole1_codeIndex);
+            $Colmain_chargeIndex = $highestColumnIndex + 1;
+            $Colmain_chargeLetter = Coordinate::stringFromColumnIndex($Colmain_chargeIndex);
+            $worksheet->setCellValue($Colmain_chargeLetter . '1', 'Cuoc_Chinh');
 
             for ($row = 2; $row <= $highestRow; $row++) {
-                $maE1 = trim($worksheet->getCell($colMaE1Letter . $row)->getValue() ?? '');
-                if (!empty($maE1)) {
-                    $cuocChinh = DB::table('oneships')->where('e1_code', $maE1)->value('main_charge');
+                $e1_code = trim($worksheet->getCell($Cole1_codeLetter . $row)->getValue() ?? '');
+                if (!empty($e1_code)) {
+                    $main_charge = DB::table('oneships')->where('e1_code', $e1_code)->value('main_charge');
 
-                    if (!is_null($cuocChinh)) {
-                        $worksheet->setCellValue($colCuocChinhLetter . $row, $cuocChinh);
+                    if (!is_null($main_charge)) {
+                        $worksheet->setCellValue($Colmain_chargeLetter . $row, $main_charge);
                     }
                 }
             }

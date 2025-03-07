@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('oneships', function (Blueprint $table) {
-            $table->string('e1_code') ->unique();
+            $table->string('e1_code')->primary();
             $table -> string('release_date')->nullable();
             $table -> string('chargeable_volumn')->nullable();
             $table -> string('main_charge')->nullable();

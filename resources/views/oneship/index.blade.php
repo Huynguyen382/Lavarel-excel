@@ -7,13 +7,25 @@
     <title>Quản lý Oneship</title>
     <link rel="stylesheet" href="{{ asset('/custom.css') }}">
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            @if (session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công!',
+                    text: "{{ session('success') }}",
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+            @endif
+        });
+    </script>
 </head>
 
 <body>
     <div class="container mt-5">
         <div class="upload-section">
-
-
             <form action="{{ route('import.excel') }}" method="POST" enctype="multipart/form-data" class="mb-3">
                 @csrf
                 <div class="input-group">
@@ -38,9 +50,9 @@
                 </div>
                 <div class="search-container">
                     <input type="text" name="search" class="form-control" placeholder="Tìm kiếm theo Mã E1..."
-                    value="{{ request('search') }}">
-                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
-                <a href="/oneship"><button type="button" class="btn cancel">Xóa tìm kiếm</button></a>
+                        value="{{ request('search') }}">
+                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                    <a href="/oneship"><button type="button" class="btn cancel">Xóa tìm kiếm</button></a>
                 </div>
             </div>
         </form>
@@ -98,27 +110,27 @@
         <div class="pagination-container d-flex justify-content-center">
             @if ($oneships->lastPage() > 1)
                 <ul class="pagination">
-                    <li class="page-item {{ ($oneships->currentPage() == 1) ? 'disabled' : '' }}">
+                    <li class="page-item {{ $oneships->currentPage() == 1 ? 'disabled' : '' }}">
                         <a class="page-link" href="{{ $oneships->url(1) }}">«</a>
                     </li>
-                    <li class="page-item {{ ($oneships->currentPage() == 1) ? 'disabled' : '' }}">
+                    <li class="page-item {{ $oneships->currentPage() == 1 ? 'disabled' : '' }}">
                         <a class="page-link" href="{{ $oneships->previousPageUrl() }}">‹</a>
                     </li>
-        
+
                     <li class="page-item disabled">
                         <span class="page-link">{{ $oneships->currentPage() }} / {{ $oneships->lastPage() }}</span>
                     </li>
-        
-                    <li class="page-item {{ ($oneships->currentPage() == $oneships->lastPage()) ? 'disabled' : '' }}">
+
+                    <li class="page-item {{ $oneships->currentPage() == $oneships->lastPage() ? 'disabled' : '' }}">
                         <a class="page-link" href="{{ $oneships->nextPageUrl() }}">›</a>
                     </li>
-                    <li class="page-item {{ ($oneships->currentPage() == $oneships->lastPage()) ? 'disabled' : '' }}">
+                    <li class="page-item {{ $oneships->currentPage() == $oneships->lastPage() ? 'disabled' : '' }}">
                         <a class="page-link" href="{{ $oneships->url($oneships->lastPage()) }}">»</a>
                     </li>
                 </ul>
             @endif
         </div>
-        
+
     </div>
 </body>
 
