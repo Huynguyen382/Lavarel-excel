@@ -6,12 +6,12 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ImportExcelRequest extends FormRequest
 {
-    // public function authorize()
-    // {
-    //     return true;
-    // }
+    public function authorize():bool
+    {
+        return true;
+    }
 
-    public function rules()
+    public function rules():array
     {
         return [
             'excelFiles' => 'required|array',
@@ -19,7 +19,7 @@ class ImportExcelRequest extends FormRequest
         ];
     }
 
-    public function messages()
+    public function messages():array
     {
         return [
             'file.required' => 'Vui lòng chọn ít nhất một file.',

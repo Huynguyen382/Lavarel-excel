@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Danh sách Oneship')
+@section('title', 'Danh sách EMS')
 
 @section('content')
         <div class="upload-section">
@@ -19,10 +19,10 @@
                     <button type="submit" class="btn btn-success">Upload và Xử lý</button>
                 </div>
             </form>
-            <a href="/vnpost">Danh sách VNPOST</a>
+            <a href="/oneship">Danh sách EMS</a>
         </div>
-        <h3 class="mt-5">Danh sách EMS</h3>
-        <form action="{{ route('oneship.index') }}" method="GET" class="mb-3">
+        <h3 class="mt-5">Danh sách VNPOST</h3>
+        <form action="{{ route('vnpost.index') }}" method="GET" class="mb-3">
             <div class="search-bar">
                 <div class="total-count">
                     <strong>Tổng số: </strong>{{ number_format($totalRows) }}
@@ -31,7 +31,7 @@
                     <input type="text" name="search" class="form-control" placeholder="Tìm kiếm theo Mã E1..."
                         value="{{ request('search') }}">
                     <button type="submit" class="btn btn-primary">Tìm kiếm</button>
-                    <a href="/oneship"><button type="button" class="btn cancel">Xóa tìm kiếm</button></a>
+                    <a href="/vnpost"><button type="button" class="btn cancel">Xóa tìm kiếm</button></a>
                 </div>
             </div>
         </form>
@@ -55,7 +55,7 @@
                 <thead>
                     <tr>
                         <th>STT</th>
-                        <th>Mã E1</th>
+                        <th>Số hiệu</th>
                         <th>Ngày phát hành</th>
                         <th>Khối lượng tính phí</th>
                         <th>Cước chính</th>
@@ -67,18 +67,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($oneships as $oneship)
+                    @forelse ($vnpost as $vnpost)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $oneship->e1_code }}</td>
-                            <td>{{ $oneship->release_date }}</td>
-                            <td>{{ $oneship->chargeable_volumn }}</td>
-                            <td>{{ $oneship->main_charge }}</td>
-                            <td>{{ $oneship->receiver }}</td>
-                            <td>{{ $oneship->recipient_address }}</td>
-                            <td>{{ $oneship->phone_number }}</td>
-                            <td>{{ $oneship->reference_number}}</td>
-                            <td>{{ $oneship->file_name }}</td>
+                            <td>{{ $vnpost->e1_code }}</td>
+                            <td>{{ $vnpost->release_date }}</td>
+                            <td>{{ $vnpost->chargeable_volumn }}</td>
+                            <td>{{ $vnpost->main_charge }}</td>
+                            <td>{{ $vnpost->receiver }}</td>
+                            <td>{{ $vnpost->recipient_address }}</td>
+                            <td>{{ $vnpost->phone_number }}</td>
+                            <td>{{ $vnpost->reference_number }}</td>
+                            <td>{{ $vnpost->file_name }}</td>
                         </tr>
                     @empty
                         <tr>
@@ -89,29 +89,32 @@
             </table>
         </div>
         <div class="pagination-container d-flex justify-content-center">
-            @if ($oneships->lastPage() > 1)
+            @if ($vnpost instanceof \Illuminate\Pagination\LengthAwarePaginator && $vnpost->lastPage() > 1)
                 <ul class="pagination">
-                    <li class="page-item {{ $oneships->currentPage() == 1 ? 'disabled' : '' }}">
-                        <a class="page-link" href="{{ $oneships->url(1) }}">«</a>
+                    <li class="page-item {{ $vnpost->currentPage() == 1 ? 'disabled' : '' }}">
+                        <a class="page-link" href="{{ $vnpost->url(1) }}">«</a>
                     </li>
-                    <li class="page-item {{ $oneships->currentPage() == 1 ? 'disabled' : '' }}">
-                        <a class="page-link" href="{{ $oneships->previousPageUrl() }}">‹</a>
+                    <li class="page-item {{ $vnpost->currentPage() == 1 ? 'disabled' : '' }}">
+                        <a class="page-link" href="{{ $vnpost->previousPageUrl() }}">‹</a>
                     </li>
 
                     <li class="page-item disabled">
-                        <span class="page-link">{{ $oneships->currentPage() }} / {{ $oneships->lastPage() }}</span>
+                        <span class="page-link">{{ $vnpost->currentPage() }} / {{ $vnpost->lastPage() }}</span>
                     </li>
 
-                    <li class="page-item {{ $oneships->currentPage() == $oneships->lastPage() ? 'disabled' : '' }}">
-                        <a class="page-link" href="{{ $oneships->nextPageUrl() }}">›</a>
+                    <li class="page-item {{ $vnpost->currentPage() == $vnpost->lastPage() ? 'disabled' : '' }}">
+                        <a class="page-link" href="{{ $vnpost->nextPageUrl() }}">›</a>
                     </li>
-                    <li class="page-item {{ $oneships->currentPage() == $oneships->lastPage() ? 'disabled' : '' }}">
-                        <a class="page-link" href="{{ $oneships->url($oneships->lastPage()) }}">»</a>
+                    <li class="page-item {{ $vnpost->currentPage() == $vnpost->lastPage() ? 'disabled' : '' }}">
+                        <a class="page-link" href="{{ $vnpost->url($vnpost->lastPage()) }}">»</a>
                     </li>
                 </ul>
+
+                
             @endif
         </div>
 
     </div>
 </body>
+
 @endsection
