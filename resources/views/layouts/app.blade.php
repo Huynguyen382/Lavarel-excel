@@ -20,12 +20,14 @@
                 });
             @endif
         });
-    </script> 
+       
+    </script>
 
 </head>
 
 <body>
     <div class="container mt-5">
+
         @yield('content')
     </div>
 </body>

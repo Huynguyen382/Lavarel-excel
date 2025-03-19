@@ -20,6 +20,11 @@
                 </div>
             </form>
             <a href="/vnpost">Danh sách VNPOST</a>
+            
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="btn btn-danger">  <p>Xin chào, {{ Auth::user()->name }}</p>Đăng xuất</button>
+            </form>
         </div>
         <h3 class="mt-5">Danh sách EMS</h3>
         <form action="{{ route('oneship.index') }}" method="GET" class="mb-3">
