@@ -21,6 +21,8 @@ return new class extends Migration
             $table -> string('phone_number')->nullable();
             $table -> string('reference_number')->nullable();
             $table -> string('file_name')->nullable();
+            $table -> unsignedBigInteger('carrier_id')->nullable();
+            $table -> foreign('carrier_id')->references('id')->on('carriers')->onDelete('cascade');
         });
     }
 
@@ -29,6 +31,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('oneships', function (Blueprint $table){
+            $table -> dropForeign('[carrier_id]');
+            $table->dropColumn('carrier_id');
+        });
         Schema::dropIfExists('oneships');
     }
 };

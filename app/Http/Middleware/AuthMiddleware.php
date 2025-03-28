@@ -19,6 +19,9 @@ class AuthMiddleware
         if(!Auth::Check()) {
             return redirect('/login')->with('error', 'You have to login first');
         }
+        if(!Auth::Check()) {
+            return response()->json(['error' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED);
+        }
         return $next($request);
     }
 }

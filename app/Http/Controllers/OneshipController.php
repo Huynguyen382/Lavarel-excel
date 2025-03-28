@@ -2,18 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ImportExcelRequest;
-use Illuminate\Support\Facades\DB;
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use App\Models\Oneship;
 use App\Http\Requests\SearchOneshipRequest;
-use App\Http\Requests\ExportExcelRequest;
 use App\Models\vnpostModel;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use PhpOffice\PhpSpreadsheet\Calculation\TextData\Search;
-use PhpOffice\PhpSpreadsheet\Writer\xlsx;
+
 
 class OneshipController extends Controller
 {
@@ -33,7 +25,7 @@ class OneshipController extends Controller
         }
         $oneships = $query->orderBy('release_date', 'desc')->paginate($limit);
         $totalRows = Oneship::count();
-        return view('oneship.index', compact('oneships','totalRows', 'search'));
+        return view('oneship.index', compact('oneships','totalRows'));
     }
     public function vnpost(SearchOneshipRequest $request)
     {

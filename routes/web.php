@@ -21,17 +21,15 @@ Route::middleware(['web'])->group(function () {
     Route::post('/register', [RegisterController::class, 'register']);
 
     Route::middleware(['auth'])->group(function () {
-        Route::get('/oneship', [OneshipController::class, 'index'])->name('oneship.index');
         Route::get('/vnpost', [OneshipController::class, 'vnpost'])->name('vnpost.index');
-
+        Route::get('/oneship', [OneshipController::class, 'index'])->name('oneship.index');
         Route::post('/importExcel', [ImportController::class, 'importExcel'])->name('import.excel');
         Route::post('/export-excel', [ExportController::class, 'exportExcel'])->name('export.excel');
         Route::post('/logout', function (Request $request) {
             Auth::logout();
-            $request->session()->invalidate(); 
+            $request->session()->invalidate();
             $request->session()->regenerateToken();
             return redirect('/login')->with('success', 'Bạn đã đăng xuất thành công!');
         })->name('logout');
     });
 });
-

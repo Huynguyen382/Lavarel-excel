@@ -85,7 +85,6 @@ class ExcelImportedService
             for ($col = 1; $col <= $highestColumnIndex; $col++) {
                 $colLetter = Coordinate::stringFromColumnIndex($col);
                 $cellValue = trim((string)$sheet->getCell("{$colLetter}{$row}")->getValue());
-
                 if (empty($cellValue)) {
                     continue;
                 }
@@ -110,7 +109,6 @@ class ExcelImportedService
                 $regex = '/^(' . implode('|', $safePattens) . ')$/i';
                 if (preg_match($regex, $colValue)) {
                     $columns[$key] = $colLetter;
-
                     if ($key === 'e1_code' && $colValue === 'Số hiệu') {
                         $this->matchData = 'vnpost';
                     }
@@ -132,7 +130,6 @@ class ExcelImportedService
             $insertData[] = [
                 'e1_code' => $e1_code,
                 'release_date' => $this->createDateTime(trim($sheet->getCell($column['release_date'] . $row)->getValue())),
-
                 'chargeable_volumn' => trim($sheet->getCell($column['chargeable_volumn'] . $row)->getValue()),
                 'main_charge' => trim($sheet->getCell($column['main_charge'] . $row)->getValue()),
                 'receiver' => isset($column['receiver']) ? trim($sheet->getCell($column['receiver'] . $row)->getValue()) : null,

@@ -32,7 +32,7 @@ body {
 /* Khu vực bảng */
 .table-container {
     max-width: 1600px;
-    max-height: 80vh;
+    max-height: 72vh;
     overflow-y: auto;
     overflow-x: auto;
     border-radius: 10px;
